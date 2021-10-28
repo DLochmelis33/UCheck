@@ -2,7 +2,7 @@ package ru.hse.se.ucheck.test;
 
 import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
-import ru.hse.se.ucheck.check.Check;
+import ru.hse.se.ucheck.models.Check;
 import ru.hse.se.ucheck.UCheck;
 
 import java.time.ZonedDateTime;
@@ -10,16 +10,16 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.hse.se.ucheck.models.Store;
 
-import static ru.hse.se.ucheck.test.TestConstants.cocaCola;
-import static ru.hse.se.ucheck.test.TestConstants.singleItemCheck;
+import static ru.hse.se.ucheck.test.TestConstants.*;
 
 public class TestAddCheck {
 
     @Test
     public void testEmptyCheck() {
         UCheck ucheck = new UCheckRamImpl();
-        Check check = new Check(List.of(), ZonedDateTime.now(), 1);
+        Check check = new Check(List.of(), ZonedDateTime.now(), perekrestok);
         Assertions.assertThrows(UCheckException.class, () -> ucheck.addCheck(check));
     }
 

@@ -3,11 +3,8 @@ package ru.hse.se.ucheck.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.hse.se.ucheck.UCheck;
 import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
-import ru.hse.se.ucheck.check.Item;
-import ru.hse.se.ucheck.check.Measure;
 
 import java.time.ZonedDateTime;
 import java.util.List;

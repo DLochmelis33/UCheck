@@ -1,7 +1,9 @@
 package ru.hse.se.ucheck;
 
-import ru.hse.se.ucheck.check.Check;
-import ru.hse.se.ucheck.check.Item;
+import ru.hse.se.ucheck.models.Check;
+import ru.hse.se.ucheck.models.Item;
+import ru.hse.se.ucheck.models.Rating;
+import ru.hse.se.ucheck.models.Store;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -11,6 +13,8 @@ public class UCheckRamImpl implements UCheck {
 
     private final ArrayList<Check> checks = new ArrayList<>();
     private final Map<Integer, List<Check>> itemsInfo = new HashMap<>();
+    private final Map<Store, Rating> storeRatingMap = new HashMap<>();
+    private final Map<Store, List<Check>> storeChecksMap = new HashMap<>();
 
     public List<Check> getChecks() {
         return checks;
