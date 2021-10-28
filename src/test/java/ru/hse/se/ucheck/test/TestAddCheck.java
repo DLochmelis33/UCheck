@@ -1,7 +1,5 @@
 package ru.hse.se.ucheck.test;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
 import ru.hse.se.ucheck.check.Check;
@@ -9,6 +7,9 @@ import ru.hse.se.ucheck.UCheck;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import static ru.hse.se.ucheck.test.TestConstants.cocaCola;
 import static ru.hse.se.ucheck.test.TestConstants.singleItemCheck;

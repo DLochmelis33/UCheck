@@ -27,7 +27,7 @@ public class UCheckRamImpl implements UCheck {
         }
         checks.add(check);
         for (Item item : check.getItems()) {
-            itemsInfo.putIfAbsent(item.getCode(), new LinkedList<>());
+            itemsInfo.putIfAbsent(item.getCode(), new ArrayList<>());
             itemsInfo.get(item.getCode()).add(check);
         }
     }
