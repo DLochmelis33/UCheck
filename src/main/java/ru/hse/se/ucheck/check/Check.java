@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Check {
 
+    // duplicates removed
     private List<Item> items;
     private ZonedDateTime timestamp;
     private int storeID;
