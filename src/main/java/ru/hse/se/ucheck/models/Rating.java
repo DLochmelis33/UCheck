@@ -10,4 +10,8 @@ public class Rating {
         this.ratingsCount = ratingsCount;
     }
 
+    public double getAverage() {
+        throw new UnsupportedOperationException();
+    }
+
 }
