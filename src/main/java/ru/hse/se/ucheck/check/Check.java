@@ -1,7 +1,6 @@
 package ru.hse.se.ucheck.check;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 
 public class Check {

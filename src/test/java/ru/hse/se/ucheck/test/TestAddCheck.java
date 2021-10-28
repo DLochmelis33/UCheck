@@ -2,7 +2,6 @@ package ru.hse.se.ucheck.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
 import ru.hse.se.ucheck.check.Check;
@@ -10,8 +9,6 @@ import ru.hse.se.ucheck.UCheck;
 import ru.hse.se.ucheck.check.Item;
 import ru.hse.se.ucheck.check.Measure;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -31,10 +28,20 @@ public class TestAddCheck {
     }
 
     @Test
-    public void testSimple() throws UCheckException {
+    public void testSimpleCheck() throws UCheckException {
         UCheckRamImpl uCheck = new UCheckRamImpl();
         uCheck.addCheck(sampleCheck);
         Assertions.assertTrue(uCheck.getChecks().contains(sampleCheck));
+    }
+
+    @Test
+    public void testNewItem() throws UCheckException {
+        UCheckRamImpl uCheck = new UCheckRamImpl();
+        uCheck.addCheck(sampleCheck);
+        Assertions.assertTrue(uCheck.getItems().containsKey(cocaCola.getCode()));
+        Assertions.assertEquals(cocaCola, uCheck.getItems().get(cocaCola.getCode()));
+        Assertions.assertTrue(uCheck.getItemsInfo().containsKey(cocaCola.getCode()));
+        Assertions.assertIterableEquals(List.of(sampleCheck), uCheck.getItemsInfo().get(cocaCola.getCode()));
     }
 
 }

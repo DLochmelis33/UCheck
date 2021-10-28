@@ -28,6 +28,7 @@ public class UCheckRamImpl implements UCheck {
         if(check.getItems().isEmpty()) {
             throw new UCheckException("check must have at least one item");
         }
+        checks.add(check);
     }
 
 }
