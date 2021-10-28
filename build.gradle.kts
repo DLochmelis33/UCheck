@@ -2,6 +2,7 @@ plugins {
     java
     id("net.ltgt.errorprone") version "2.0.2"
     checkstyle
+    jacoco
 }
 
 group = "org.example"
@@ -32,3 +33,34 @@ checkstyle {
     isIgnoreFailures = true
     isShowViolations = true
 }
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+tasks.jacocoTestReport {
+
+    dependsOn(tasks.test) // tests are required to run before generating the report
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = true
+        csv.isEnabled = false
+
+        html.destination = file("$buildDir/reports/jacoco/test/html")
+        xml.destination = file("$buildDir/reports/jacoco/test/jacocoTestReport.xml")
+    }
+
+    finalizedBy("jacocoTestCoverageVerification")
+
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.65".toBigDecimal()
+            }
+        }
+    }
+}
+
