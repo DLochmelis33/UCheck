@@ -10,7 +10,9 @@ import ru.hse.se.ucheck.check.Item;
 import ru.hse.se.ucheck.check.Measure;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
+import static ru.hse.se.ucheck.test.TestConstants.cocaCola;
 import static ru.hse.se.ucheck.test.TestConstants.singleItemCheck;
 
 public class TestRemoveOldChecks {
@@ -27,6 +29,13 @@ public class TestRemoveOldChecks {
     public void testSingleRemove() {
         uCheck.removeOldChecks(ZonedDateTime.now());
         Assertions.assertFalse(uCheck.getChecks().contains(singleItemCheck));
+    }
+
+    @Test
+    public void testSingleRemoveFromItems() {
+        uCheck.removeOldChecks(ZonedDateTime.now());
+        Assertions.assertTrue(uCheck.getItemsInfo().containsKey(cocaCola.getCode()));
+        Assertions.assertIterableEquals(List.of(), uCheck.getItemsInfo().get(cocaCola.getCode()));
     }
 
 }

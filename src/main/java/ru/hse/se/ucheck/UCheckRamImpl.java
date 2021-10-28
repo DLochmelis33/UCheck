@@ -39,7 +39,7 @@ public class UCheckRamImpl implements UCheck {
 
     @Override
     public void removeOldChecks(ZonedDateTime beforeLimit) {
-        throw new RuntimeException();
+        checks.removeIf(check -> check.getTimestamp().compareTo(beforeLimit) <= 0);
     }
 
 }
