@@ -1,9 +1,6 @@
 package ru.hse.se.ucheck;
 
-import ru.hse.se.ucheck.models.Check;
-import ru.hse.se.ucheck.models.Item;
-import ru.hse.se.ucheck.models.Rating;
-import ru.hse.se.ucheck.models.Store;
+import ru.hse.se.ucheck.models.*;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -13,8 +10,8 @@ public class UCheckRamImpl implements UCheck {
 
     private final ArrayList<Check> checks = new ArrayList<>();
     private final Map<Integer, List<Check>> itemsInfo = new HashMap<>();
-    private final Map<Store, Rating> storeRatingMap = new HashMap<>();
-    private final Map<Store, List<Check>> storeChecksMap = new HashMap<>();
+    private final Map<Store, Rating> storeRating = new HashMap<>();
+    private final Map<Store, List<Check>> storeInfo = new HashMap<>();
 
     public List<Check> getChecks() {
         return checks;
@@ -24,8 +21,16 @@ public class UCheckRamImpl implements UCheck {
         return itemsInfo;
     }
 
+    public Map<Store, Rating> getStoreRating() {
+        return storeRating;
+    }
+
+    public Map<Store, List<Check>> getStoreInfo() {
+        return storeInfo;
+    }
+
     @Override
-    public void addCheck(Check check) throws UCheckException {
+    public void addCheck(Check check, Review review) throws UCheckException {
         if (check.getItems().isEmpty()) {
             throw new UCheckException("check must have at least one item");
         }
