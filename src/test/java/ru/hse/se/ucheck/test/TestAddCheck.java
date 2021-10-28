@@ -33,8 +33,6 @@ public class TestAddCheck {
     public void testNewItem() throws UCheckException {
         UCheckRamImpl uCheck = new UCheckRamImpl();
         uCheck.addCheck(singleItemCheck);
-        Assertions.assertTrue(uCheck.getItems().containsKey(cocaCola.getCode()));
-        Assertions.assertEquals(cocaCola, uCheck.getItems().get(cocaCola.getCode()));
         Assertions.assertTrue(uCheck.getItemsInfo().containsKey(cocaCola.getCode()));
         Assertions.assertIterableEquals(List.of(singleItemCheck), uCheck.getItemsInfo().get(cocaCola.getCode()));
     }

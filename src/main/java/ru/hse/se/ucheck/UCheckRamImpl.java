@@ -5,19 +5,15 @@ import ru.hse.se.ucheck.check.Item;
 
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class UCheckRamImpl implements UCheck {
 
     private final ArrayList<Check> checks = new ArrayList<>();
-    private final Map<Integer, Item> items = new HashMap<>();
     private final Map<Integer, List<Check>> itemsInfo = new HashMap<>();
 
     public List<Check> getChecks() {
         return checks;
-    }
-
-    public Map<Integer, Item> getItems() {
-        return items;
     }
 
     public Map<Integer, List<Check>> getItemsInfo() {
@@ -31,7 +27,6 @@ public class UCheckRamImpl implements UCheck {
         }
         checks.add(check);
         for (Item item : check.getItems()) {
-            items.putIfAbsent(item.getCode(), item);
             itemsInfo.putIfAbsent(item.getCode(), new LinkedList<>());
             itemsInfo.get(item.getCode()).add(check);
         }
@@ -39,7 +34,11 @@ public class UCheckRamImpl implements UCheck {
 
     @Override
     public void removeOldChecks(ZonedDateTime beforeLimit) {
-        checks.removeIf(check -> check.getTimestamp().compareTo(beforeLimit) <= 0);
+        Predicate<Check> checkPredicate = check -> check.getTimestamp().compareTo(beforeLimit) <= 0;
+        checks.removeIf(checkPredicate);
+        for (List<Check> itemChecks : itemsInfo.values()) {
+            itemChecks.removeIf(checkPredicate);
+        }
     }
 
 }
