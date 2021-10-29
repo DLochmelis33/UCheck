@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
+import ru.hse.se.ucheck.models.Rating;
 import ru.hse.se.ucheck.models.Review;
+import ru.hse.se.ucheck.models.Store;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -31,10 +33,22 @@ public class TestRemoveOldChecks {
     }
 
     @Test
-    public void testSingleRemoveFromItems() {
+    public void testRemoveFromItems() {
         uCheck.removeOldChecks(ZonedDateTime.now(ZoneId.systemDefault()));
         Assertions.assertTrue(uCheck.getItemsInfo().containsKey(cocaCola.getCode()));
         Assertions.assertIterableEquals(List.of(), uCheck.getItemsInfo().get(cocaCola.getCode()));
+    }
+
+    @Test
+    public void testRemoveFromStores() throws UCheckException {
+        Store store = singleItemCheck.getStore();
+        Rating storeRating = uCheck.getStoreRating(store);
+        uCheck.removeOldChecks(ZonedDateTime.now(ZoneId.systemDefault()));
+
+        Assertions.assertTrue(uCheck.getStoreInfo().containsKey(store));
+        Assertions.assertIterableEquals(List.of(), uCheck.getStoreInfo().get(store));
+
+        Assertions.assertEquals(storeRating, Assertions.assertDoesNotThrow(() -> uCheck.getStoreRating(store)));
     }
 
 }

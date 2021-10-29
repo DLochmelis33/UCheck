@@ -10,8 +10,8 @@ public class UCheckRamImpl implements UCheck {
 
     private final ArrayList<Check> checks = new ArrayList<>();
     private final Map<Integer, List<Check>> itemsInfo = new HashMap<>();
+    private final Map<Store, List<Check>> storesInfo = new HashMap<>();
     private final Map<Store, Rating> storeRating = new HashMap<>();
-    private final Map<Store, List<Check>> storeInfo = new HashMap<>();
 
     public List<Check> getChecks() {
         return checks;
@@ -22,7 +22,7 @@ public class UCheckRamImpl implements UCheck {
     }
 
     public Map<Store, List<Check>> getStoreInfo() {
-        return storeInfo;
+        return storesInfo;
     }
 
     @Override
@@ -35,8 +35,11 @@ public class UCheckRamImpl implements UCheck {
             itemsInfo.putIfAbsent(item.getCode(), new ArrayList<>());
             itemsInfo.get(item.getCode()).add(check);
         }
-        storeInfo.putIfAbsent(check.getStore(), new ArrayList<>());
-        storeInfo.get(check.getStore()).add(check);
+        storesInfo.putIfAbsent(check.getStore(), new ArrayList<>());
+        storesInfo.get(check.getStore()).add(check);
+
+        storeRating.putIfAbsent(check.getStore(), new Rating());
+        storeRating.get(check.getStore()).applyReview(review);
     }
 
     @Override
@@ -50,7 +53,10 @@ public class UCheckRamImpl implements UCheck {
 
     @Override
     public Rating getStoreRating(Store store) throws UCheckException {
-        throw new UnsupportedOperationException();
+        if (!storeRating.containsKey(store)) {
+            throw new UCheckException("store doesn't exist");
+        }
+        return storeRating.get(store);
     }
 
 }

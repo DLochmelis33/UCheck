@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
 import ru.hse.se.ucheck.models.Check;
-import ru.hse.se.ucheck.UCheck;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -12,9 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.hse.se.ucheck.models.Rating;
 import ru.hse.se.ucheck.models.Review;
-import ru.hse.se.ucheck.models.Store;
 
 import static ru.hse.se.ucheck.test.TestConstants.*;
 
