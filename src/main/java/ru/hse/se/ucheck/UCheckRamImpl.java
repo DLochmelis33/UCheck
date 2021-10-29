@@ -49,6 +49,9 @@ public class UCheckRamImpl implements UCheck {
         for (List<Check> itemChecks : itemsInfo.values()) {
             itemChecks.removeIf(checkPredicate);
         }
+        for (List<Check> storeChecks : storesInfo.values()) {
+            storeChecks.removeIf(checkPredicate);
+        }
     }
 
     @Override
