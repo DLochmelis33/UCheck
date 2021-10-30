@@ -2,6 +2,7 @@ package ru.hse.se.ucheck.models;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class Check {
 
@@ -14,6 +15,10 @@ public class Check {
         this.items = items;
         this.timestamp = timestamp;
         this.store = store;
+    }
+
+    public Optional<Item> getItemByCode(int itemCode) {
+        return items.stream().filter(item -> item.getCode() == itemCode).findAny();
     }
 
     public List<Item> getItems() {

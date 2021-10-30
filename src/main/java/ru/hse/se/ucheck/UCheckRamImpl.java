@@ -5,6 +5,7 @@ import ru.hse.se.ucheck.models.*;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class UCheckRamImpl implements UCheck {
 
@@ -65,7 +66,13 @@ public class UCheckRamImpl implements UCheck {
     @Override
     public List<ItemInStore> getFilteredItemInStores(
             int itemCode, Filter filter, SortRule sortRule) {
-        throw new UnsupportedOperationException();
+        List<Check> itemChecks = itemsInfo.get(itemCode);
+        return itemChecks.stream()
+                .filter(check -> check.getItemByCode(itemCode).isPresent())
+                .map(check -> new ItemInStore(
+                        check.getItemByCode(itemCode).orElseThrow().getPrice(),
+                        check.getStore(),
+                        storeRating.get(check.getStore()).getAverage()))
+                .collect(Collectors.toList());
     }
-
 }

@@ -9,4 +9,11 @@ public class Filter {
     private final DoublePredicate storeRatingPredicate = storeRating -> true;
     private final Predicate<String> outletPredicate = outlet -> true;
 
+    public Filter(DoublePredicate pricePredicate,
+                  DoublePredicate storeRatingPredicate,
+                  Predicate<String> outletPredicate) {
+    }
+
+    public Filter() {
+    }
 }

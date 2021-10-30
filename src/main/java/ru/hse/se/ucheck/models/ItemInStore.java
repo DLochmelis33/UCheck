@@ -1,5 +1,7 @@
 package ru.hse.se.ucheck.models;
 
+import java.util.Objects;
+
 public class ItemInStore {
 
     private double price;
@@ -34,5 +36,24 @@ public class ItemInStore {
 
     public void setAverageStoreRating(double averageStoreRating) {
         this.averageStoreRating = averageStoreRating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ItemInStore)) {
+            return false;
+        }
+        ItemInStore that = (ItemInStore) o;
+        return that.price == price
+                && that.averageStoreRating == averageStoreRating
+                && Objects.equals(store, that.store);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(price, store, averageStoreRating);
     }
 }
