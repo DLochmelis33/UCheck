@@ -72,6 +72,7 @@ public class UCheckRamImpl implements UCheck {
                         check.getItemByCode(itemCode).orElseThrow().getPrice(),
                         check.getStore(),
                         storeRating.get(check.getStore()).getAverage()))
+                .sorted(sortRule.getItemInStoreComparator())
                 .collect(Collectors.toList());
     }
 }

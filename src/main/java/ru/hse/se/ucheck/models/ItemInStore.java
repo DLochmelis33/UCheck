@@ -56,4 +56,13 @@ public class ItemInStore {
     public int hashCode() {
         return Objects.hash(price, store, averageStoreRating);
     }
+
+    @Override
+    public String toString() {
+        return "ItemInStore {" +
+                "price=" + price +
+                ", store=" + store +
+                ", averageStoreRating=" + averageStoreRating +
+                '}';
+    }
 }
