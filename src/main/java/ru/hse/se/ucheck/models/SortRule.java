@@ -18,17 +18,19 @@ public class SortRule {
     public Comparator<ItemInStore> getItemInStoreComparator() {
         Comparator<ItemInStore> comparator = (item1, item2) -> 0;
         for (SortParameter parameter : parameters) {
-            switch(parameter) {
+            switch (parameter) {
                 case PRICE:
-                    comparator = comparator.thenComparing(ItemInStore::getPrice);
+                    comparator = comparator.thenComparingDouble(ItemInStore::getPrice);
                     break;
                 case RATING:
                     comparator = comparator.thenComparing(
-                            Comparator.comparing(ItemInStore::getAverageStoreRating).reversed());
+                            Comparator.comparingDouble(ItemInStore::getAverageStoreRating).reversed());
                     break;
                 case OUTLET:
                     comparator = comparator.thenComparing(item -> item.getStore().getOutlet());
                     break;
+                default:
+                    throw new IllegalStateException("undefined SortParameter");
             }
         }
         return comparator;

@@ -68,6 +68,14 @@ public class UCheckRamImpl implements UCheck {
             int itemCode, Filter filter, SortRule sortRule) {
         return itemsInfo.get(itemCode).stream()
                 .filter(filter.getItemInCheckPredicate(itemCode, this))
+                .collect(
+                        Collectors.groupingBy(
+                                Check::getStore,
+                                Collectors.maxBy(
+                                        Comparator.comparing(Check::getTimestamp))))
+                .values()
+                .stream()
+                .map(Optional::get)
                 .map(check -> new ItemInStore(
                         check.getItemByCode(itemCode).orElseThrow().getPrice(),
                         check.getStore(),

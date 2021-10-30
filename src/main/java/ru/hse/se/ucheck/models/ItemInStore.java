@@ -59,10 +59,10 @@ public class ItemInStore {
 
     @Override
     public String toString() {
-        return "ItemInStore {" +
-                "price=" + price +
-                ", store=" + store +
-                ", averageStoreRating=" + averageStoreRating +
-                '}';
+        return "ItemInStore {"
+                + "price=" + price
+                + ", store=" + store
+                + ", averageStoreRating=" + averageStoreRating
+                + '}';
     }
 }

@@ -32,5 +32,6 @@ public class TestConstants {
 
     public static final ItemInStore cocaColaInPerekrestok = new ItemInStore(cocaCola.getPrice(), perekrestok, 0.0);
     public static final ItemInStore cocaColaInKarusel = new ItemInStore(cocaCola.getPrice(), karusel, 0.0);
-    public static final ItemInStore cocaColaInPremiumPerekrestok = new ItemInStore(cocaColaExpensive.getPrice(), premiumPerekrestok, 0.0);
+    public static final ItemInStore cocaColaInPremiumPerekrestok = new ItemInStore(
+            cocaColaExpensive.getPrice(), premiumPerekrestok, 0.0);
 }

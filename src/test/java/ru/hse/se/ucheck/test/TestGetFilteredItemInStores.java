@@ -61,7 +61,8 @@ public class TestGetFilteredItemInStores {
         ItemInStore cocaColaInPopularPremiumPerekrestok = new ItemInStore(
                 cocaColaExpensive.getPrice(), premiumPerekrestok, 1.0);
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPopularPremiumPerekrestok, cocaColaInKarusel, cocaColaInPerekrestok),
+        Assertions.assertIterableEquals(
+                List.of(cocaColaInPopularPremiumPerekrestok, cocaColaInKarusel, cocaColaInPerekrestok),
                 Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
                         new Filter(),
@@ -85,5 +86,13 @@ public class TestGetFilteredItemInStores {
                         cocaCola.getCode(),
                         new Filter(),
                         new SortRule())));
+    }
+
+    @Test
+    public void testNotUniqueSortParameters() {
+       Assertions.assertThrows(UCheckException.class, () -> uCheck.getFilteredItemInStores(
+                        cocaCola.getCode(),
+                        new Filter(),
+                        new SortRule(List.of(SortParameter.RATING, SortParameter.RATING))));
     }
 }
