@@ -65,7 +65,13 @@ public class UCheckRamImpl implements UCheck {
 
     @Override
     public List<ItemInStore> getFilteredItemInStores(
-            int itemCode, Filter filter, SortRule sortRule) {
+            int itemCode, Filter filter, SortRule sortRule) throws UCheckException {
+        return getFilteredItemInStores(itemCode, filter, sortRule, null);
+    }
+
+    @Override
+    public List<ItemInStore> getFilteredItemInStores(
+            int itemCode, Filter filter, SortRule sortRule, Coordinates customerCoordinates) throws UCheckException {
         return itemsInfo.get(itemCode).stream()
                 .filter(filter.getItemInCheckPredicate(itemCode, this))
                 .collect(
@@ -80,13 +86,7 @@ public class UCheckRamImpl implements UCheck {
                         check.getItemByCode(itemCode).orElseThrow().getPrice(),
                         check.getStore(),
                         storeRating.get(check.getStore()).getAverage()))
-                .sorted(sortRule.getItemInStoreComparator())
+                .sorted(sortRule.getItemInStoreComparator(customerCoordinates))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ItemInStore> getFilteredItemInStores(
-            int itemCode, Filter filter, SortRule sortRule, Coordinates customerCoordinates) {
-        throw new UnsupportedOperationException();
     }
 }

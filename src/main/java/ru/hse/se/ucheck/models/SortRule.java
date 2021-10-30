@@ -21,8 +21,8 @@ public class SortRule {
         this.parameters = parameters;
     }
 
-    public Comparator<ItemInStore> getItemInStoreComparator() {
-        Comparator<ItemInStore> comparator = (item1, item2) -> 0;
+    public Comparator<ItemInStore> getItemInStoreComparator(Coordinates customerCoordinates) throws UCheckException {
+        Comparator<ItemInStore> comparator = (itemInStore1, itemInStore2) -> 0;
         for (SortParameter parameter : parameters) {
             switch (parameter) {
                 case PRICE:
@@ -33,7 +33,14 @@ public class SortRule {
                             Comparator.comparingDouble(ItemInStore::getAverageStoreRating).reversed());
                     break;
                 case OUTLET:
-                    comparator = comparator.thenComparing(item -> item.getStore().getOutlet());
+                    comparator = comparator.thenComparing(itemInStore -> itemInStore.getStore().getOutlet());
+                    break;
+                case DISTANCE:
+                    if (customerCoordinates == null) {
+                        throw new UCheckException("using DISTANCE, but customerCoordinates are null");
+                    }
+                    comparator = comparator.thenComparing(
+                            itemInStore -> itemInStore.getStore().getCoordinates().getDistance(customerCoordinates));
                     break;
                 default:
                     throw new IllegalStateException("undefined SortParameter");
