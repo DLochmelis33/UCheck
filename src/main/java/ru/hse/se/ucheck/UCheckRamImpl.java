@@ -62,4 +62,10 @@ public class UCheckRamImpl implements UCheck {
         return storeRating.get(store);
     }
 
+    @Override
+    public List<ItemInStore> getFilteredItemInStores(
+            int itemCode, Filter filter, SortRule sortRule) {
+        throw new UnsupportedOperationException();
+    }
+
 }

@@ -1,11 +1,9 @@
 package ru.hse.se.ucheck;
 
-import ru.hse.se.ucheck.models.Check;
-import ru.hse.se.ucheck.models.Rating;
-import ru.hse.se.ucheck.models.Review;
-import ru.hse.se.ucheck.models.Store;
+import ru.hse.se.ucheck.models.*;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public interface UCheck {
 
@@ -16,4 +14,5 @@ public interface UCheck {
 
     Rating getStoreRating(Store store) throws UCheckException;
 
+    List<ItemInStore> getFilteredItemInStores(int itemCode, Filter filter, SortRule sortRule) throws UCheckException;
 }
