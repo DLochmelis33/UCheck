@@ -11,13 +11,15 @@ public class Filter {
     private DoublePredicate pricePredicate = price -> true;
     private DoublePredicate storeRatingPredicate = storeRating -> true;
     private Predicate<String> outletPredicate = outlet -> true;
+    private Predicate<Coordinates> coordinatesPredicate = coordinates -> true;
 
     public Filter() {
     }
 
     public Filter(DoublePredicate pricePredicate,
                   DoublePredicate storeRatingPredicate,
-                  Predicate<String> outletPredicate) {
+                  Predicate<String> outletPredicate,
+                  Predicate<Coordinates> coordinatesPredicate) {
         this.pricePredicate = pricePredicate;
         this.storeRatingPredicate = storeRatingPredicate;
         this.outletPredicate = outletPredicate;

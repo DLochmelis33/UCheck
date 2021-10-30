@@ -44,11 +44,12 @@ public class TestGetFilteredItemInStores {
         DoublePredicate pricePredicate = price -> price < 100;
         DoublePredicate ratingPredicate = rating -> true;
         Predicate<String> storeLabelPredicate = storeLabel -> Objects.equals(storeLabel, perekrestok.getOutlet());
+        Predicate<Coordinates> storeCoordinates = storeCoords -> true;
 
         Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
                 Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
-                        new Filter(pricePredicate, ratingPredicate, storeLabelPredicate),
+                        new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, storeCoordinates),
                         new SortRule())));
     }
 
@@ -90,9 +91,25 @@ public class TestGetFilteredItemInStores {
 
     @Test
     public void testNotUniqueSortParameters() {
-       Assertions.assertThrows(UCheckException.class, () -> uCheck.getFilteredItemInStores(
+        Assertions.assertThrows(UCheckException.class, () -> new SortRule(
+                List.of(SortParameter.RATING, SortParameter.RATING)));
+    }
+
+    @Test
+    public void testFilterByCoordinates() throws UCheckException {
+        uCheck.addCheck(karuselCheck, Review.OK);
+        uCheck.addCheck(perekrestokCheapCheck, Review.OK);
+
+        DoublePredicate pricePredicate = price -> true;
+        DoublePredicate ratingPredicate = rating -> true;
+        Predicate<String> storeLabelPredicate = storeLabel -> true;
+        Predicate<Coordinates> coordinatesPredicate = coords
+                -> Objects.equals(coords, karuselCheck.getStore().getStoreCoordinates());
+
+        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
-                        new Filter(),
-                        new SortRule(List.of(SortParameter.RATING, SortParameter.RATING))));
+                        new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, coordinatesPredicate),
+                        new SortRule())));
     }
 }

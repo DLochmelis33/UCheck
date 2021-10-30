@@ -14,5 +14,5 @@ public interface UCheck {
 
     Rating getStoreRating(Store store) throws UCheckException;
 
-    List<ItemInStore> getFilteredItemInStores(int itemCode, Filter filter, SortRule sortRule) throws UCheckException;
+    List<ItemInStore> getFilteredItemInStores(int itemCode, Filter filter, SortRule sortRule);
 }

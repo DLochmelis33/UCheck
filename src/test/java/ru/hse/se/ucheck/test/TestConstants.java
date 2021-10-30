@@ -5,6 +5,9 @@ import ru.hse.se.ucheck.models.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.DoublePredicate;
+import java.util.function.Predicate;
 
 public class TestConstants {
 
@@ -13,9 +16,12 @@ public class TestConstants {
     public static final Item fanta = new Item(2, "Fanta 1L", 90.0, Measure.PIECE);
     public static final Item meat = new Item(3, "Porkchop", 359.9, Measure.KILOGRAM);
 
-    public static final Store karusel = new Store("St.Petersburg, Hermitage", "Karusel'");
-    public static final Store perekrestok = new Store("Moscow, Kremlin", "Perekrestok");
-    public static final Store premiumPerekrestok = new Store("Paris, Louvre", perekrestok.getOutlet());
+    public static final Store karusel = new Store("St.Petersburg, Hermitage", "Karusel'",
+            new Coordinates(59.9397392, 30.3140793));
+    public static final Store perekrestok = new Store("Moscow, Kremlin", "Perekrestok",
+            new Coordinates(55.751694, 37.617218));
+    public static final Store premiumPerekrestok = new Store("Paris, Louvre", perekrestok.getOutlet(),
+            new Coordinates(48.86102, 2.337985));
 
 
     public static final Check singleItemCheck = new Check(List.of(cocaCola),

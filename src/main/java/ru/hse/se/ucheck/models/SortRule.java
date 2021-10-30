@@ -1,7 +1,11 @@
 package ru.hse.se.ucheck.models;
 
+import ru.hse.se.ucheck.UCheckException;
+
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // sort in descending or alphabetical order
 public class SortRule {
@@ -11,7 +15,10 @@ public class SortRule {
     public SortRule() {
     }
 
-    public SortRule(List<SortParameter> parameters) {
+    public SortRule(List<SortParameter> parameters) throws UCheckException {
+        if (new HashSet<>(parameters).size() != parameters.size()) {
+            throw new UCheckException("Sort parameters aren't unique");
+        }
         this.parameters = parameters;
     }
 
