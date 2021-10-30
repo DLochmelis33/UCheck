@@ -5,7 +5,6 @@ import ru.hse.se.ucheck.UCheckException;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 // sort in descending or alphabetical order
 public class SortRule {

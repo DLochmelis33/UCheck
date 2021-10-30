@@ -6,20 +6,20 @@ public class Store {
 
     private String address;
     private String outlet;
-    private Coordinates storeCoordinates;
+    private Coordinates coordinates;
 
-    public Store(String address, String outlet, Coordinates storeCoordinates) {
+    public Store(String address, String outlet, Coordinates coordinates) {
         this.address = address;
         this.outlet = outlet;
-        this.storeCoordinates = storeCoordinates;
+        this.coordinates = coordinates;
     }
 
-    public Coordinates getStoreCoordinates() {
-        return storeCoordinates;
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 
-    public void setStoreCoordinates(Coordinates storeCoordinates) {
-        this.storeCoordinates = storeCoordinates;
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String getAddress() {
@@ -47,11 +47,13 @@ public class Store {
             return false;
         }
         Store store = (Store) o;
-        return Objects.equals(address, store.address) && Objects.equals(outlet, store.outlet);
+        return Objects.equals(address, store.address)
+                && Objects.equals(outlet, store.outlet)
+                && Objects.equals(coordinates, store.coordinates);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(address, outlet);
+        return Objects.hash(address, outlet, coordinates);
     }
 }

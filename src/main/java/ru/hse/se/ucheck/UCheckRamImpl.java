@@ -83,4 +83,10 @@ public class UCheckRamImpl implements UCheck {
                 .sorted(sortRule.getItemInStoreComparator())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ItemInStore> getFilteredItemInStores(
+            int itemCode, Filter filter, SortRule sortRule, Coordinates customerCoordinates) {
+        throw new UnsupportedOperationException();
+    }
 }

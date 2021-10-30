@@ -23,6 +23,7 @@ public class Filter {
         this.pricePredicate = pricePredicate;
         this.storeRatingPredicate = storeRatingPredicate;
         this.outletPredicate = outletPredicate;
+        this.coordinatesPredicate = coordinatesPredicate;
     }
 
     public Predicate<Check> getItemInCheckPredicate(int itemCode, UCheck uCheck) {
@@ -31,7 +32,8 @@ public class Filter {
                 return check.getItemByCode(itemCode).isPresent()
                         && pricePredicate.test(check.getItemByCode(itemCode).get().getPrice())
                         && storeRatingPredicate.test(uCheck.getStoreRating(check.getStore()).getAverage())
-                        && outletPredicate.test(check.getStore().getOutlet());
+                        && outletPredicate.test(check.getStore().getOutlet())
+                        && coordinatesPredicate.test(check.getStore().getCoordinates());
             } catch (UCheckException exc) {
                 throw new IllegalStateException("check's store doesn't have rating", exc);
             }

@@ -44,12 +44,12 @@ public class TestGetFilteredItemInStores {
         DoublePredicate pricePredicate = price -> price < 100;
         DoublePredicate ratingPredicate = rating -> true;
         Predicate<String> storeLabelPredicate = storeLabel -> Objects.equals(storeLabel, perekrestok.getOutlet());
-        Predicate<Coordinates> storeCoordinates = storeCoords -> true;
+        Predicate<Coordinates> storeCoordinatesPredicate = storeCoordinates -> true;
 
         Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
                 Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
-                        new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, storeCoordinates),
+                        new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, storeCoordinatesPredicate),
                         new SortRule())));
     }
 
@@ -103,13 +103,28 @@ public class TestGetFilteredItemInStores {
         DoublePredicate pricePredicate = price -> true;
         DoublePredicate ratingPredicate = rating -> true;
         Predicate<String> storeLabelPredicate = storeLabel -> true;
-        Predicate<Coordinates> coordinatesPredicate = coords
-                -> Objects.equals(coords, karuselCheck.getStore().getStoreCoordinates());
+        Predicate<Coordinates> coordinatesPredicate = coordinates
+                -> Objects.equals(coordinates, perekrestok.getCoordinates());
 
         Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
                 Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
                         new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, coordinatesPredicate),
                         new SortRule())));
+    }
+
+    @Test
+    public void testSortByDistanceToCustomer() throws UCheckException {
+        uCheck.addCheck(karuselCheck, Review.OK);
+        uCheck.addCheck(perekrestokCheapCheck, Review.OK);
+
+        Coordinates customerCoordinates = perekrestok.getCoordinates();
+
+        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok, cocaColaInKarusel),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
+                        cocaCola.getCode(),
+                        new Filter(),
+                        new SortRule(List.of(SortParameter.DISTANCE)),
+                        customerCoordinates)));
     }
 }
