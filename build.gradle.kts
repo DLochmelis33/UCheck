@@ -30,8 +30,8 @@ checkstyle {
     toolVersion = "9.0"
     configFile = rootProject.file("config/checkstyle/checkstyle.xml")
     configProperties["checkstyle.cache.file"] = "${buildDir}/checkstyle.cache"
-    isIgnoreFailures = true
     isShowViolations = true
+    isIgnoreFailures = false
 }
 
 tasks.test {
