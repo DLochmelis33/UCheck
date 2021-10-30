@@ -66,9 +66,8 @@ public class UCheckRamImpl implements UCheck {
     @Override
     public List<ItemInStore> getFilteredItemInStores(
             int itemCode, Filter filter, SortRule sortRule) {
-        List<Check> itemChecks = itemsInfo.get(itemCode);
-        return itemChecks.stream()
-                .filter(check -> check.getItemByCode(itemCode).isPresent())
+        return itemsInfo.get(itemCode).stream()
+                .filter(filter.getItemInCheckPredicate(itemCode, this))
                 .map(check -> new ItemInStore(
                         check.getItemByCode(itemCode).orElseThrow().getPrice(),
                         check.getStore(),

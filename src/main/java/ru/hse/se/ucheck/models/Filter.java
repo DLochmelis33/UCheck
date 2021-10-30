@@ -1,19 +1,38 @@
 package ru.hse.se.ucheck.models;
 
+import ru.hse.se.ucheck.UCheck;
+import ru.hse.se.ucheck.UCheckException;
+
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
 public class Filter {
 
-    private final DoublePredicate pricePredicate = price -> true;
-    private final DoublePredicate storeRatingPredicate = storeRating -> true;
-    private final Predicate<String> outletPredicate = outlet -> true;
+    private DoublePredicate pricePredicate = price -> true;
+    private DoublePredicate storeRatingPredicate = storeRating -> true;
+    private Predicate<String> outletPredicate = outlet -> true;
+
+    public Filter() {
+    }
 
     public Filter(DoublePredicate pricePredicate,
                   DoublePredicate storeRatingPredicate,
                   Predicate<String> outletPredicate) {
+        this.pricePredicate = pricePredicate;
+        this.storeRatingPredicate = storeRatingPredicate;
+        this.outletPredicate = outletPredicate;
     }
 
-    public Filter() {
+    public Predicate<Check> getItemInCheckPredicate(int itemCode, UCheck uCheck) {
+        return check -> {
+            try {
+                return check.getItemByCode(itemCode).isPresent()
+                        && pricePredicate.test(check.getItemByCode(itemCode).get().getPrice())
+                        && storeRatingPredicate.test(uCheck.getStoreRating(check.getStore()).getAverage())
+                        && outletPredicate.test(check.getStore().getOutlet());
+            } catch (UCheckException exc) {
+                throw new IllegalStateException("check's store doesn't have rating", exc);
+            }
+        };
     }
 }

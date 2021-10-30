@@ -4,8 +4,6 @@ import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
 import ru.hse.se.ucheck.models.*;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.DoublePredicate;
@@ -37,16 +35,6 @@ public class TestGetFilteredItemInStores {
 
     @Test
     public void testFilter() throws UCheckException {
-        Item cocaColaExpensive = new Item(1, "Coca-Cola 0.5L", 150.0, Measure.PIECE);
-        Store premiumPerekrestok = new Store("Paris, Louvre", perekrestok.getOutlet());
-
-        Check karuselCheck = new Check(List.of(cocaCola),
-                ZonedDateTime.now(ZoneId.systemDefault()), karusel);
-        Check perekrestokCheapCheck = new Check(List.of(cocaCola),
-                ZonedDateTime.now(ZoneId.systemDefault()), perekrestok);
-        Check perekrestokExpensiveCheck = new Check(List.of(cocaColaExpensive),
-                ZonedDateTime.now(ZoneId.systemDefault()), premiumPerekrestok);
-
         uCheck.addCheck(karuselCheck, Review.OK);
         uCheck.addCheck(perekrestokCheapCheck, Review.OK);
         uCheck.addCheck(perekrestokExpensiveCheck, Review.OK);
@@ -60,5 +48,18 @@ public class TestGetFilteredItemInStores {
                         cocaCola.getCode(),
                         new Filter(pricePredicate, ratingPredicate, storeLabelPredicate),
                         new SortRule())));
+    }
+
+    @Test
+    public void testSort() throws UCheckException {
+        uCheck.addCheck(karuselCheck, Review.OK);
+        uCheck.addCheck(perekrestokCheapCheck, Review.OK);
+        uCheck.addCheck(perekrestokExpensiveCheck, Review.SUPER);
+
+        Assertions.assertIterableEquals(List.of(cocaColaInPremiumPerekrestok, cocaColaInKarusel, cocaColaInPerekrestok),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
+                        cocaCola.getCode(),
+                        new Filter(),
+                        new SortRule(List.of(SortParameter.RATING, SortParameter.PRICE, SortParameter.OUTLET)))));
     }
 }
