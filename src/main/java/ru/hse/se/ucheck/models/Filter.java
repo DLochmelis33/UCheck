@@ -3,6 +3,7 @@ package ru.hse.se.ucheck.models;
 import ru.hse.se.ucheck.UCheck;
 import ru.hse.se.ucheck.UCheckException;
 
+import java.util.List;
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
@@ -37,6 +38,18 @@ public class Filter {
             } catch (UCheckException exc) {
                 throw new IllegalStateException("check's store doesn't have rating", exc);
             }
+        };
+    }
+
+    public Predicate<CartInStore> getCartInStorePredicate(List<ItemInCart> itemsInCart, UCheck uCheck) {
+        return cartInStore -> {
+            Store store = cartInStore.getStore();
+            return itemsInCart.stream()
+                    .allMatch(itemInCart -> cartInStore.getPrices().containsKey(itemInCart))
+                    && pricePredicate.test(cartInStore.getPrice())
+                    && storeRatingPredicate.test(cartInStore.getAverageStoreRating())
+                    && outletPredicate.test(store.getOutlet())
+                    && coordinatesPredicate.test(store.getCoordinates());
         };
     }
 }

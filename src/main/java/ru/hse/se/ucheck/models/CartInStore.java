@@ -1,26 +1,29 @@
 package ru.hse.se.ucheck.models;
 
+import java.util.Map;
 import java.util.Objects;
 
-public class ItemInStore implements Sortable {
+public class CartInStore implements Sortable {
 
-    private double price;
+    private final Map<ItemInCart, Double> prices;
     private Store store;
     private double averageStoreRating;
 
-    public ItemInStore(double price, Store store, double averageStoreRating) {
-        this.price = price;
+    public CartInStore(Map<ItemInCart, Double> prices, Store store, double averageStoreRating) {
+        this.prices = prices;
         this.store = store;
         this.averageStoreRating = averageStoreRating;
     }
 
     @Override
     public double getPrice() {
-        return price;
+        return prices.entrySet().stream()
+                .mapToDouble(entry -> entry.getValue() * entry.getKey().getCount())
+                .sum();
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public Map<ItemInCart, Double> getPrices() {
+        return prices;
     }
 
     @Override
@@ -46,24 +49,24 @@ public class ItemInStore implements Sortable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ItemInStore)) {
+        if (!(o instanceof CartInStore)) {
             return false;
         }
-        ItemInStore that = (ItemInStore) o;
-        return that.price == price
-                && that.averageStoreRating == averageStoreRating
-                && Objects.equals(store, that.store);
+        CartInStore that = (CartInStore) o;
+        return averageStoreRating == that.averageStoreRating
+                && Objects.equals(store, that.store)
+                && Objects.equals(prices, that.prices);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(price, averageStoreRating, store);
+        return Objects.hash(averageStoreRating, store, prices);
     }
 
     @Override
     public String toString() {
         return "ItemInStore {"
-                + "price=" + price
+                + "prices=" + prices
                 + ", store=" + store
                 + ", averageStoreRating=" + averageStoreRating
                 + '}';

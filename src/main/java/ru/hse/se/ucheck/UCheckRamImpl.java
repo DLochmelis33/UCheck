@@ -4,6 +4,7 @@ import ru.hse.se.ucheck.models.*;
 
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -86,7 +87,60 @@ public class UCheckRamImpl implements UCheck {
                         check.getItemByCode(itemCode).orElseThrow().getPrice(),
                         check.getStore(),
                         storeRating.get(check.getStore()).getAverage()))
-                .sorted(sortRule.getItemInStoreComparator(customerCoordinates))
+                .sorted(sortRule.getComparator(customerCoordinates))
+                .collect(Collectors.toList());
+    }
+
+    private CartInStore getCartInStoreFromStoreChecks(List<ItemInCart> itemsInCart, Store store) {
+        if (!storesInfo.containsKey(store)) {
+            throw new IllegalArgumentException("no such store in UCheck");
+        }
+        Map<ItemInCart, Double> prices = new HashMap<>();
+        itemsInCart.forEach(itemInCart -> {
+            int itemCode = itemInCart.getItemCode();
+            Optional<Double> minPrice =
+                    storesInfo.get(store).stream()
+                            .filter(check -> check.getItemByCode(itemCode).isPresent())
+                            .collect(
+                                    Collectors.groupingBy(
+                                            Check::getStore,
+                                            Collectors.maxBy(
+                                                    Comparator.comparing(Check::getTimestamp))))
+                            .values()
+                            .stream()
+                            .map(Optional::get)
+                            .map(check -> check.getItemByCode(itemCode).orElseThrow().getPrice())
+                            .min(Double::compare);
+            minPrice.ifPresent(price -> prices.put(itemInCart, price));
+        });
+        try {
+            return new CartInStore(prices, store, this.getStoreRating(store).getAverage());
+        } catch (UCheckException exc) {
+            throw new IllegalStateException("check's store doesn't have rating", exc);
+        }
+    }
+
+    @Override
+    public List<CartInStore> getFilteredCartInStores(
+            List<ItemInCart> itemsInCart, Filter filter, SortRule sortRule) throws UCheckException {
+        return getFilteredCartInStores(itemsInCart, filter, sortRule, null);
+    }
+
+    @Override
+    public List<CartInStore> getFilteredCartInStores(
+            List<ItemInCart> itemsInCart, Filter filter, SortRule sortRule,
+            Coordinates customerCoordinates) throws UCheckException {
+        if (new HashSet<>(
+                itemsInCart.stream()
+                        .map(ItemInCart::getItemCode)
+                        .collect(Collectors.toList()))
+                .size() != itemsInCart.size()) {
+            throw new UCheckException("Item's in cart aren't unique");
+        }
+        return storesInfo.keySet().stream()
+                .map(store -> getCartInStoreFromStoreChecks(itemsInCart, store))
+                .filter(filter.getCartInStorePredicate(itemsInCart, this))
+                .sorted(sortRule.getComparator(customerCoordinates))
                 .collect(Collectors.toList());
     }
 }

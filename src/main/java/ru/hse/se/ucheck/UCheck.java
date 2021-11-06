@@ -18,4 +18,11 @@ public interface UCheck {
 
     List<ItemInStore> getFilteredItemInStores(
             int itemCode, Filter filter, SortRule sortRule, Coordinates customerCoordinates) throws UCheckException;
+
+    List<CartInStore> getFilteredCartInStores(
+            List<ItemInCart> itemsInCart, Filter filter, SortRule sortRule) throws UCheckException;
+
+    List<CartInStore> getFilteredCartInStores(
+            List<ItemInCart> itemsInCart, Filter filter, SortRule sortRule,
+            Coordinates customerCoordinates) throws UCheckException;
 }
