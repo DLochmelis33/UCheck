@@ -57,7 +57,7 @@ public class ItemInStore implements Sortable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(price, store, averageStoreRating);
+        return Objects.hash(price, averageStoreRating, store);
     }
 
     @Override

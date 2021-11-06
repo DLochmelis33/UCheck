@@ -92,7 +92,7 @@ public class UCheckRamImpl implements UCheck {
     }
 
     private CartInStore getCartInStoreFromStoreChecks(List<ItemInCart> itemsInCart, Store store) {
-        if(!storesInfo.containsKey(store)) {
+        if (!storesInfo.containsKey(store)) {
             throw new IllegalArgumentException("no such store in UCheck");
         }
         Map<ItemInCart, Double> prices = new HashMap<>();
@@ -130,6 +130,13 @@ public class UCheckRamImpl implements UCheck {
     public List<CartInStore> getFilteredCartInStores(
             List<ItemInCart> itemsInCart, Filter filter, SortRule sortRule,
             Coordinates customerCoordinates) throws UCheckException {
+        if (new HashSet<>(
+                itemsInCart.stream()
+                        .map(ItemInCart::getItemCode)
+                        .collect(Collectors.toList()))
+                .size() != itemsInCart.size()) {
+            throw new UCheckException("Item's in cart aren't unique");
+        }
         return storesInfo.keySet().stream()
                 .map(store -> getCartInStoreFromStoreChecks(itemsInCart, store))
                 .filter(filter.getCartInStorePredicate(itemsInCart, this))

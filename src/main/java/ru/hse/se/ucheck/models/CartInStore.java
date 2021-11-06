@@ -1,6 +1,7 @@
 package ru.hse.se.ucheck.models;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class CartInStore implements Sortable {
 
@@ -41,5 +42,33 @@ public class CartInStore implements Sortable {
 
     public void setAverageStoreRating(double averageStoreRating) {
         this.averageStoreRating = averageStoreRating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CartInStore)) {
+            return false;
+        }
+        CartInStore that = (CartInStore) o;
+        return averageStoreRating == that.averageStoreRating
+                && Objects.equals(store, that.store)
+                && Objects.equals(prices, that.prices);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(averageStoreRating, store, prices);
+    }
+
+    @Override
+    public String toString() {
+        return "ItemInStore {"
+                + "prices=" + prices
+                + ", store=" + store
+                + ", averageStoreRating=" + averageStoreRating
+                + '}';
     }
 }

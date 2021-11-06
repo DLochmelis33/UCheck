@@ -2,12 +2,9 @@ package ru.hse.se.ucheck.test;
 
 import ru.hse.se.ucheck.models.*;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.DoublePredicate;
-import java.util.function.Predicate;
+import java.util.Map;
 
 public class TestConstants {
 
@@ -40,4 +37,31 @@ public class TestConstants {
     public static final ItemInStore cocaColaInKarusel = new ItemInStore(cocaCola.getPrice(), karusel, 0.0);
     public static final ItemInStore cocaColaInPremiumPerekrestok = new ItemInStore(
             cocaColaExpensive.getPrice(), premiumPerekrestok, 0.0);
+
+    public static final ItemInCart oneCocaCola = new ItemInCart(cocaCola.getCode(), 1);
+    public static final ItemInCart twoCocaColas = new ItemInCart(cocaCola.getCode(), 2);
+    public static final ItemInCart fiveCocaColas = new ItemInCart(cocaCola.getCode(), 5);
+
+    public static final ItemInCart oneFanta = new ItemInCart(fanta.getCode(), 1);
+    public static final ItemInCart oneMeat = new ItemInCart(meat.getCode(), 1);
+
+    public static final CartInStore singleItemCart = new CartInStore(
+            Map.of(oneCocaCola, cocaCola.getPrice()), perekrestok, 0.0);
+    public static final CartInStore multiItemCart = new CartInStore(
+            Map.of(
+                    twoCocaColas, cocaCola.getPrice(),
+                    oneFanta, fanta.getPrice(),
+                    oneMeat, meat.getPrice()
+            ), karusel, 0.0);
+
+    public static final CartInStore perekrestokCart = new CartInStore(
+            Map.of(fiveCocaColas, cocaColaInPerekrestok.getPrice()),
+            perekrestok, 0.0);
+    public static final CartInStore karuselCart = new CartInStore(
+            Map.of(fiveCocaColas, cocaColaInKarusel.getPrice()),
+            karusel, 0.0);
+    public static final CartInStore premiumPerekrestokCart = new CartInStore(
+            Map.of(fiveCocaColas, cocaColaInPremiumPerekrestok.getPrice()),
+            karusel, 0.0);
+
 }
