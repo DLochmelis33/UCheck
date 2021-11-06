@@ -21,26 +21,26 @@ public class SortRule {
         this.parameters = parameters;
     }
 
-    public Comparator<ItemInStore> getItemInStoreComparator(Coordinates customerCoordinates) throws UCheckException {
-        Comparator<ItemInStore> comparator = (itemInStore1, itemInStore2) -> 0;
+    public <T extends Sortable> Comparator<T> getComparator(Coordinates customerCoordinates) throws UCheckException {
+        Comparator<T> comparator = (t1, t2) -> 0;
         for (SortParameter parameter : parameters) {
             switch (parameter) {
                 case PRICE:
-                    comparator = comparator.thenComparingDouble(ItemInStore::getPrice);
+                    comparator = comparator.thenComparingDouble(Sortable::getPrice);
                     break;
                 case RATING:
                     comparator = comparator.thenComparing(
-                            Comparator.comparingDouble(ItemInStore::getAverageStoreRating).reversed());
+                            Comparator.comparingDouble(Sortable::getAverageStoreRating).reversed());
                     break;
                 case OUTLET:
-                    comparator = comparator.thenComparing(itemInStore -> itemInStore.getStore().getOutlet());
+                    comparator = comparator.thenComparing(t -> t.getStore().getOutlet());
                     break;
                 case DISTANCE:
                     if (customerCoordinates == null) {
                         throw new UCheckException("using DISTANCE, but customerCoordinates are null");
                     }
                     comparator = comparator.thenComparing(
-                            itemInStore -> itemInStore.getStore().getCoordinates().getDistance(customerCoordinates));
+                            t -> t.getStore().getCoordinates().getDistance(customerCoordinates));
                     break;
                 default:
                     throw new IllegalStateException("undefined SortParameter");
