@@ -25,4 +25,8 @@ public interface UCheck {
     List<CartInStore> getFilteredCartInStores(
             List<ItemInCart> itemsInCart, Filter filter, SortRule sortRule,
             Coordinates customerCoordinates) throws UCheckException;
+
+    void setItemTags(int itemCode, List<Tag> tags) throws UCheckException;
+
+    List<Tag> getItemTags(int itemCode) throws UCheckException;
 }

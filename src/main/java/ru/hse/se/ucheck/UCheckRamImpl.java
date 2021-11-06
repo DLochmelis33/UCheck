@@ -4,7 +4,6 @@ import ru.hse.se.ucheck.models.*;
 
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -12,6 +11,7 @@ public class UCheckRamImpl implements UCheck {
 
     private final ArrayList<Check> checks = new ArrayList<>();
     private final Map<Integer, List<Check>> itemsInfo = new HashMap<>();
+    private final Map<Integer, List<Tag>> itemTags = new HashMap<>();
     private final Map<Store, List<Check>> storesInfo = new HashMap<>();
     private final Map<Store, Rating> storeRating = new HashMap<>();
 
@@ -142,5 +142,21 @@ public class UCheckRamImpl implements UCheck {
                 .filter(filter.getCartInStorePredicate(itemsInCart, this))
                 .sorted(sortRule.getComparator(customerCoordinates))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void setItemTags(int itemCode, List<Tag> tags) throws UCheckException {
+        if (new HashSet<>(tags).size() != tags.size()) {
+            throw new UCheckException("tags aren't unique");
+        }
+        itemTags.put(itemCode, tags);
+    }
+
+    @Override
+    public List<Tag> getItemTags(int itemCode) throws UCheckException {
+        if (!itemTags.containsKey(itemCode)) {
+            throw new UCheckException("no such item in UCheck");
+        }
+        return itemTags.get(itemCode);
     }
 }

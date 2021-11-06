@@ -64,4 +64,7 @@ public class TestConstants {
             Map.of(fiveCocaColas, cocaColaInPremiumPerekrestok.getPrice()),
             karusel, 0.0);
 
+    public static final List<Tag> cocaColaDefaultTags = List.of(Tag.DRINK, Tag.CARBONATED_DRINK);
+    public static final List<Tag> cocaColaUpdatedTags = List.of(Tag.DRINK, Tag.CARBONATED_DRINK, Tag.PARTY);
+
 }
