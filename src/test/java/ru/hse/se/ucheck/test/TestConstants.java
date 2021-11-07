@@ -12,6 +12,7 @@ public class TestConstants {
     public static final Item cocaColaExpensive = new Item(1, "Coca-Cola 0.5L", 150.0, Measure.PIECE);
     public static final Item fanta = new Item(2, "Fanta 1L", 90.0, Measure.PIECE);
     public static final Item meat = new Item(3, "Porkchop", 359.9, Measure.KILOGRAM);
+    public static final Item coneForest = new Item(4, "Cone Forest Water 1L", 60.0, Measure.PIECE);
 
     public static final Store karusel = new Store("St.Petersburg, Hermitage", "Karusel'",
             new Coordinates(59.9397392, 30.3140793));
@@ -64,7 +65,7 @@ public class TestConstants {
             Map.of(fiveCocaColas, cocaColaInPremiumPerekrestok.getPrice()),
             karusel, 0.0);
 
-    public static final List<Tag> cocaColaDefaultTags = List.of(Tag.DRINK, Tag.CARBONATED_DRINK);
-    public static final List<Tag> cocaColaUpdatedTags = List.of(Tag.DRINK, Tag.CARBONATED_DRINK, Tag.PARTY);
+    public static final List<Tag> cocaColaDefaultTags = List.of(Tag.CARBONATED_DRINK, Tag.DRINK);
+    public static final List<Tag> cocaColaUpdatedTags = List.of(Tag.CARBONATED_DRINK, Tag.DRINK, Tag.PARTY);
 
 }

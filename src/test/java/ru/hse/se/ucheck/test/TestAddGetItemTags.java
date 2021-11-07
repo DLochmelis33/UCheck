@@ -4,11 +4,11 @@ import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
 import ru.hse.se.ucheck.models.Tag;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static ru.hse.se.ucheck.test.TestConstants.*;
 

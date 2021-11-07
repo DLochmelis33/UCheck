@@ -4,6 +4,7 @@ import ru.hse.se.ucheck.models.*;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface UCheck {
 
@@ -28,5 +29,13 @@ public interface UCheck {
 
     void setItemTags(int itemCode, List<Tag> tags) throws UCheckException;
 
+    // tags are sorted in declaration order (in Tag enum class)
     List<Tag> getItemTags(int itemCode) throws UCheckException;
+
+    // only items that have all tags will be shown
+    Map<Integer, List<ItemInStore>> getFilteredTagsItemsInStores(
+            List<Tag> tags, Filter filter, SortRule sortRule) throws UCheckException;
+
+    Map<Integer, List<ItemInStore>> getFilteredTagsItemsInStores(
+            List<Tag> tags, Filter filter, SortRule sortRule, Coordinates customerCoordinates) throws UCheckException;
 }

@@ -7,6 +7,7 @@ import ru.hse.se.ucheck.models.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
@@ -17,22 +18,23 @@ import org.junit.jupiter.api.Test;
 
 import static ru.hse.se.ucheck.test.TestConstants.*;
 
-public class TestGetFilteredItemInStores {
+public class TestGetFilteredTagsItemsInStores {
 
     private static UCheckRamImpl uCheck;
 
     @BeforeEach
-    public void setupUCheck() {
+    public void setupUCheck() throws UCheckException {
         uCheck = new UCheckRamImpl();
+        uCheck.setItemTags(cocaCola.getCode(), cocaColaDefaultTags);
     }
 
     @Test
     public void testDefaultSingleOption() throws UCheckException {
         uCheck.addCheck(singleItemCheck, Review.OK);
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
-                        cocaCola.getCode(), new Filter(), new SortRule())));
+        Assertions.assertEquals(Map.of(cocaCola.getCode(), List.of(cocaColaInPerekrestok)),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredTagsItemsInStores(
+                        cocaColaDefaultTags, new Filter(), new SortRule())));
     }
 
     @Test
@@ -46,9 +48,9 @@ public class TestGetFilteredItemInStores {
         Predicate<String> storeLabelPredicate = storeLabel -> Objects.equals(storeLabel, perekrestok.getOutlet());
         Predicate<Coordinates> storeCoordinatesPredicate = storeCoordinates -> true;
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
-                        cocaCola.getCode(),
+        Assertions.assertEquals(Map.of(cocaCola.getCode(), List.of(cocaColaInPerekrestok)),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredTagsItemsInStores(
+                        cocaColaDefaultTags,
                         new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, storeCoordinatesPredicate),
                         new SortRule())));
     }
@@ -62,10 +64,11 @@ public class TestGetFilteredItemInStores {
         ItemInStore cocaColaInPopularPremiumPerekrestok = new ItemInStore(
                 cocaColaExpensive.getPrice(), premiumPerekrestok, 1.0);
 
-        Assertions.assertIterableEquals(
-                List.of(cocaColaInPopularPremiumPerekrestok, cocaColaInKarusel, cocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
-                        cocaCola.getCode(),
+        Assertions.assertEquals(
+                Map.of(cocaCola.getCode(),
+                        List.of(cocaColaInPopularPremiumPerekrestok, cocaColaInKarusel, cocaColaInPerekrestok)),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredTagsItemsInStores(
+                        cocaColaDefaultTags,
                         new Filter(),
                         new SortRule(List.of(SortParameter.RATING, SortParameter.PRICE, SortParameter.OUTLET)))));
     }
@@ -82,17 +85,11 @@ public class TestGetFilteredItemInStores {
 
         ItemInStore actualCocaColaInPerekrestok = new ItemInStore(cocaColaExpensive.getPrice(), perekrestok, 0.0);
 
-        Assertions.assertIterableEquals(List.of(actualCocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
-                        cocaCola.getCode(),
+        Assertions.assertEquals(Map.of(cocaCola.getCode(), List.of(actualCocaColaInPerekrestok)),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredTagsItemsInStores(
+                        cocaColaDefaultTags,
                         new Filter(),
                         new SortRule())));
-    }
-
-    @Test
-    public void testNotUniqueSortParameters() {
-        Assertions.assertThrows(UCheckException.class, () -> new SortRule(
-                List.of(SortParameter.RATING, SortParameter.RATING)));
     }
 
     @Test
@@ -106,9 +103,9 @@ public class TestGetFilteredItemInStores {
         Predicate<Coordinates> coordinatesPredicate = coordinates
                 -> Objects.equals(coordinates, perekrestok.getCoordinates());
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
-                        cocaCola.getCode(),
+        Assertions.assertEquals(Map.of(cocaCola.getCode(), List.of(cocaColaInPerekrestok)),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredTagsItemsInStores(
+                        cocaColaDefaultTags,
                         new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, coordinatesPredicate),
                         new SortRule())));
     }
@@ -120,27 +117,36 @@ public class TestGetFilteredItemInStores {
 
         Coordinates customerCoordinates = perekrestok.getCoordinates();
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok, cocaColaInKarusel),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
-                        cocaCola.getCode(),
+        Assertions.assertEquals(Map.of(cocaCola.getCode(), List.of(cocaColaInPerekrestok, cocaColaInKarusel)),
+                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredTagsItemsInStores(
+                        cocaColaDefaultTags,
                         new Filter(),
                         new SortRule(List.of(SortParameter.DISTANCE)),
                         customerCoordinates)));
     }
 
     @Test
-    public void testReturnEmptyList() throws UCheckException {
-        uCheck.addCheck(perekrestokCheapCheck, Review.NEGATIVE);
+    public void testNotUniqueTags() {
+        Assertions.assertThrows(UCheckException.class, () ->
+                uCheck.getFilteredTagsItemsInStores(List.of(Tag.FOOD, Tag.FOOD), new Filter(), new SortRule()));
+    }
 
-        DoublePredicate pricePredicate = price -> true;
-        DoublePredicate ratingPredicate = rating -> rating >= 0;
-        Predicate<String> storeLabelPredicate = storeLabel -> true;
-        Predicate<Coordinates> storeCoordinatesPredicate = storeCoordinates -> true;
+    @Test
+    public void testTagsMatch() throws UCheckException {
+        uCheck.setItemTags(fanta.getCode(), List.of(Tag.DRINK, Tag.CARBONATED_DRINK));
+        uCheck.setItemTags(coneForest.getCode(), List.of(Tag.DRINK));
 
-        Assertions.assertIterableEquals(List.of(),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
-                        cocaCola.getCode(),
-                        new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, storeCoordinatesPredicate),
+        uCheck.addCheck(karuselCheck, Review.OK);
+        uCheck.addCheck(perekrestokExpensiveCheck, Review.OK);
+
+        Assertions.assertEquals(
+                Map.of(
+                        cocaCola.getCode(), List.of(cocaColaInKarusel, cocaColaInPremiumPerekrestok),
+                        fanta.getCode(), List.of()
+                ), Assertions.assertDoesNotThrow(() -> uCheck.getFilteredTagsItemsInStores(
+                        List.of(Tag.DRINK, Tag.CARBONATED_DRINK),
+                        new Filter(),
                         new SortRule())));
     }
 }
+
