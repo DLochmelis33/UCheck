@@ -1,6 +1,14 @@
 package ru.hse.se.ucheck.test;
 
-import ru.hse.se.ucheck.models.*;
+import ru.hse.se.ucheck.models.base.Check;
+import ru.hse.se.ucheck.models.base.Coordinates;
+import ru.hse.se.ucheck.models.base.ItemInStore;
+import ru.hse.se.ucheck.models.base.Store;
+import ru.hse.se.ucheck.models.base.item.Item;
+import ru.hse.se.ucheck.models.base.item.Measure;
+import ru.hse.se.ucheck.models.base.item.Tag;
+import ru.hse.se.ucheck.models.cart.CartInStore;
+import ru.hse.se.ucheck.models.cart.ItemInCart;
 
 import java.time.ZonedDateTime;
 import java.util.List;

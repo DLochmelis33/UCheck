@@ -1,4 +1,4 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.rating;
 
 public enum Review {
     NEGATIVE(-1),

@@ -1,4 +1,6 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.base;
+
+import ru.hse.se.ucheck.models.sort.Sortable;
 
 import java.util.Objects;
 

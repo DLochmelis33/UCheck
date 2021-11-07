@@ -1,4 +1,4 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.base.item;
 
 public enum Tag {
     CARBONATED_DRINK,

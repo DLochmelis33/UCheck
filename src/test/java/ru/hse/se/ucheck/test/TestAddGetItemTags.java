@@ -2,7 +2,7 @@ package ru.hse.se.ucheck.test;
 
 import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
-import ru.hse.se.ucheck.models.Tag;
+import ru.hse.se.ucheck.models.base.item.Tag;
 
 import java.util.List;
 

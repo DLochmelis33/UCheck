@@ -1,4 +1,4 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.cart;
 
 import java.util.Objects;
 

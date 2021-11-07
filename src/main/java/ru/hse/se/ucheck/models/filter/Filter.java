@@ -1,7 +1,12 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.filter;
 
 import ru.hse.se.ucheck.UCheck;
 import ru.hse.se.ucheck.UCheckException;
+import ru.hse.se.ucheck.models.base.Check;
+import ru.hse.se.ucheck.models.base.Coordinates;
+import ru.hse.se.ucheck.models.base.Store;
+import ru.hse.se.ucheck.models.cart.CartInStore;
+import ru.hse.se.ucheck.models.cart.ItemInCart;
 
 import java.util.List;
 import java.util.function.DoublePredicate;
