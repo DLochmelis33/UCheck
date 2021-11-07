@@ -1,7 +1,7 @@
 <img src="logo.png" align="right" />
 
 # UCheck
-<!-- Banges -->
+<!-- Badges -->
 [![releases](https://img.shields.io/github/v/release/DLochmelis33/UCheck.svg)](https://github.com/DLochmelis33/UCheck/blob/master/CHANGELOG.md)
 [![License Badge][license-badge]][license]
 [![Java CI with Gradle](https://img.shields.io/github/workflow/status/DLochmelis33/UCheck/Java%20CI%20with%20Gradle)](https://github.com/DLochmelis33/UCheck/actions/workflows/on_push.yml)
