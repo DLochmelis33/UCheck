@@ -1,6 +1,17 @@
 package ru.hse.se.ucheck;
 
-import ru.hse.se.ucheck.models.*;
+import ru.hse.se.ucheck.models.base.Check;
+import ru.hse.se.ucheck.models.base.Coordinates;
+import ru.hse.se.ucheck.models.base.ItemInStore;
+import ru.hse.se.ucheck.models.base.Store;
+import ru.hse.se.ucheck.models.base.item.Item;
+import ru.hse.se.ucheck.models.base.item.Tag;
+import ru.hse.se.ucheck.models.cart.CartInStore;
+import ru.hse.se.ucheck.models.cart.ItemInCart;
+import ru.hse.se.ucheck.models.filter.Filter;
+import ru.hse.se.ucheck.models.rating.Rating;
+import ru.hse.se.ucheck.models.rating.Review;
+import ru.hse.se.ucheck.models.sort.SortRule;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -12,6 +23,7 @@ public class UCheckRamImpl implements UCheck {
 
     private final ArrayList<Check> checks = new ArrayList<>();
     private final Map<Integer, List<Check>> itemsInfo = new HashMap<>();
+    private final Map<Integer, Set<Tag>> itemTags = new HashMap<>();
     private final Map<Store, List<Check>> storesInfo = new HashMap<>();
     private final Map<Store, Rating> storeRating = new HashMap<>();
 
@@ -142,5 +154,56 @@ public class UCheckRamImpl implements UCheck {
                 .filter(filter.getCartInStorePredicate(itemsInCart, this))
                 .sorted(sortRule.getComparator(customerCoordinates))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void setItemTags(int itemCode, List<Tag> tags) throws UCheckException {
+        Set<Tag> tagsSet = new HashSet<>(tags);
+        if (tagsSet.size() != tags.size()) {
+            throw new UCheckException("tags aren't unique");
+        }
+        itemTags.put(itemCode, tagsSet);
+        itemsInfo.putIfAbsent(itemCode, new ArrayList<>());
+    }
+
+    @Override
+    public List<Tag> getItemTags(int itemCode) throws UCheckException {
+        if (!itemTags.containsKey(itemCode)) {
+            throw new UCheckException("no such item in UCheck");
+        }
+        return itemTags.get(itemCode).stream()
+                .sorted(Comparator.comparingInt(Tag::ordinal))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<Integer, List<ItemInStore>> getFilteredTagsItemsInStores(
+            List<Tag> tags, Filter filter, SortRule sortRule) throws UCheckException {
+        return getFilteredTagsItemsInStores(tags, filter, sortRule, null);
+    }
+
+    @Override
+    public Map<Integer, List<ItemInStore>> getFilteredTagsItemsInStores(
+            List<Tag> tags, Filter filter, SortRule sortRule, Coordinates customerCoordinates) throws UCheckException {
+        Set<Tag> tagsSet = new HashSet<>(tags);
+        if (tagsSet.size() != tags.size()) {
+            throw new UCheckException("tags aren't unique");
+        }
+        try {
+            return itemTags.entrySet().stream()
+                    .filter(entry -> entry.getValue().containsAll(tagsSet))
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toMap(
+                            Function.identity(),
+                            itemCode -> {
+                                try {
+                                    return getFilteredItemInStores(itemCode, filter, sortRule, customerCoordinates);
+                                } catch (UCheckException exc) {
+                                    throw new RuntimeException(exc);
+                                }
+                            }));
+        } catch (RuntimeException wrappedExc) {
+            throw (UCheckException) wrappedExc.getCause();
+        }
     }
 }

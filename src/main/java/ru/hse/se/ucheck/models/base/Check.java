@@ -1,4 +1,6 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.base;
+
+import ru.hse.se.ucheck.models.base.item.Item;
 
 import java.time.ZonedDateTime;
 import java.util.List;

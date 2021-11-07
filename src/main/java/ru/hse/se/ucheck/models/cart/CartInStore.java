@@ -1,4 +1,7 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.cart;
+
+import ru.hse.se.ucheck.models.base.Store;
+import ru.hse.se.ucheck.models.sort.Sortable;
 
 import java.util.Map;
 import java.util.Objects;

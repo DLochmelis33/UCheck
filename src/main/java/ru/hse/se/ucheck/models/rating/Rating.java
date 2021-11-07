@@ -1,4 +1,4 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.rating;
 
 public class Rating {
 

@@ -1,6 +1,7 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.sort;
 
 import ru.hse.se.ucheck.UCheckException;
+import ru.hse.se.ucheck.models.base.Coordinates;
 
 import java.util.Comparator;
 import java.util.HashSet;
