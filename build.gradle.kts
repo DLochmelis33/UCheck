@@ -3,6 +3,7 @@ plugins {
     id("net.ltgt.errorprone") version "2.0.2"
     checkstyle
     jacoco
+    application
 }
 
 group = "org.example"
@@ -26,6 +27,10 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("ru.hse.se.ucheck.cli.App")
 }
 
 checkstyle {
