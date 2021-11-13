@@ -1,0 +1,19 @@
+{
+    "items": [
+        {
+        "code": 1,
+        "label": "Coca-Cola 0.5L",
+        "price": 50.0,
+        "measure": "PIECE"
+    }
+    ],
+    "timestampRepresentation": "2007-12-03T10:15:30+01:00[Europe/Paris]",
+    "store": {
+        "address": "St.Petersburg, Hermitage",
+        "outlet": "Perekrestok",
+        "coordinates": {
+            "latitude": 55.751694,
+            "longitude": 37.617218
+        }
+    }
+}
