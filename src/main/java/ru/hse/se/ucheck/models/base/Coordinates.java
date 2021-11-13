@@ -1,9 +1,9 @@
 package ru.hse.se.ucheck.models.base;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Objects;
 
 @JsonAutoDetect
 public class Coordinates {

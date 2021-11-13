@@ -1,11 +1,12 @@
 package ru.hse.se.ucheck.models.base;
 
-import com.fasterxml.jackson.annotation.*;
 import ru.hse.se.ucheck.models.base.item.Item;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.*;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Check {
