@@ -14,6 +14,8 @@ repositories {
 
 dependencies {
     implementation("org.mockito:mockito-core:4.0.0")
+    implementation("info.picocli", "picocli", "4.6.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
 
     errorprone("com.google.errorprone:error_prone_core:2.9.0")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
