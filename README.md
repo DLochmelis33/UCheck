@@ -26,6 +26,19 @@ git clone git@github.com:DLochmelis33/UCheck.git
 
 2. Execute Gradle
 
+### Installing with Docker
+
+1. Clone the repo (just like normal installation)
+
+2. Build an image from `dockerfiles/download.Dockerfile`
+
+3. Build a second image using the following command:
+```bash
+docker build --rm -f "dockerfiles\build.Dockerfile" -t ucheck_built:latest "dockerfiles"
+```
+Now the `ucheck_built:latest` contains the built project. 
+The TAR and ZIP archives containing an executable JAR are located in `build/distributions` folder in the image.
+
 ## Authors
 - Gleb Solovev ([@GlebSolovev](https://github.com/GlebSolovev))
 - Denis Lochmelis ([@DLochmelis33](https://github.com/DLochmelis33))
