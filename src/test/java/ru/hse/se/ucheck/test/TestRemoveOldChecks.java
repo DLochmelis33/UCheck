@@ -10,10 +10,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.hse.se.ucheck.test.TestConstants.cocaCola;
 import static ru.hse.se.ucheck.test.TestConstants.singleItemCheck;
 
@@ -30,14 +30,14 @@ public class TestRemoveOldChecks {
     @Test
     public void testSingleRemove() {
         uCheck.removeOldChecks(ZonedDateTime.now(ZoneId.systemDefault()));
-        Assertions.assertFalse(uCheck.getChecks().contains(singleItemCheck));
+        assertFalse(uCheck.getChecks().contains(singleItemCheck));
     }
 
     @Test
     public void testRemoveFromItems() {
         uCheck.removeOldChecks(ZonedDateTime.now(ZoneId.systemDefault()));
-        Assertions.assertTrue(uCheck.getItemsInfo().containsKey(cocaCola.getCode()));
-        Assertions.assertIterableEquals(List.of(), uCheck.getItemsInfo().get(cocaCola.getCode()));
+        assertTrue(uCheck.getItemsInfo().containsKey(cocaCola.getCode()));
+        assertIterableEquals(List.of(), uCheck.getItemsInfo().get(cocaCola.getCode()));
     }
 
     @Test
@@ -46,10 +46,10 @@ public class TestRemoveOldChecks {
         Rating storeRating = uCheck.getStoreRating(store);
         uCheck.removeOldChecks(ZonedDateTime.now(ZoneId.systemDefault()));
 
-        Assertions.assertTrue(uCheck.getStoreInfo().containsKey(store));
-        Assertions.assertIterableEquals(List.of(), uCheck.getStoreInfo().get(store));
+        assertTrue(uCheck.getStoreInfo().containsKey(store));
+        assertIterableEquals(List.of(), uCheck.getStoreInfo().get(store));
 
-        Assertions.assertEquals(storeRating, Assertions.assertDoesNotThrow(() -> uCheck.getStoreRating(store)));
+        assertEquals(storeRating, assertDoesNotThrow(() -> uCheck.getStoreRating(store)));
     }
 
 }

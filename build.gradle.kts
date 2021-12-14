@@ -6,15 +6,13 @@ plugins {
 }
 
 group = "org.example"
-version = "1.0-SNAPSHOT"
+version = "0.3.0"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.mockito:mockito-core:4.0.0")
-
     errorprone("com.google.errorprone:error_prone_core:2.9.0")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 

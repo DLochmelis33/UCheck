@@ -11,10 +11,10 @@ import java.util.Objects;
 import java.util.function.DoublePredicate;
 import java.util.function.Predicate;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.hse.se.ucheck.test.TestConstants.*;
 
 public class TestGetFilteredItemInStores {
@@ -30,8 +30,8 @@ public class TestGetFilteredItemInStores {
     public void testDefaultSingleOption() throws UCheckException {
         uCheck.addCheck(singleItemCheck, Review.OK);
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
+        assertIterableEquals(List.of(cocaColaInPerekrestok),
+                assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(), new Filter(), new SortRule())));
     }
 
@@ -46,8 +46,8 @@ public class TestGetFilteredItemInStores {
         Predicate<String> storeLabelPredicate = storeLabel -> Objects.equals(storeLabel, perekrestok.getOutlet());
         Predicate<Coordinates> storeCoordinatesPredicate = storeCoordinates -> true;
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
+        assertIterableEquals(List.of(cocaColaInPerekrestok),
+                assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
                         new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, storeCoordinatesPredicate),
                         new SortRule())));
@@ -62,9 +62,9 @@ public class TestGetFilteredItemInStores {
         ItemInStore cocaColaInPopularPremiumPerekrestok = new ItemInStore(
                 cocaColaExpensive.getPrice(), premiumPerekrestok, 1.0);
 
-        Assertions.assertIterableEquals(
+        assertIterableEquals(
                 List.of(cocaColaInPopularPremiumPerekrestok, cocaColaInKarusel, cocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
+                assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
                         new Filter(),
                         new SortRule(List.of(SortParameter.RATING, SortParameter.PRICE, SortParameter.OUTLET)))));
@@ -82,8 +82,8 @@ public class TestGetFilteredItemInStores {
 
         ItemInStore actualCocaColaInPerekrestok = new ItemInStore(cocaColaExpensive.getPrice(), perekrestok, 0.0);
 
-        Assertions.assertIterableEquals(List.of(actualCocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
+        assertIterableEquals(List.of(actualCocaColaInPerekrestok),
+                assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
                         new Filter(),
                         new SortRule())));
@@ -91,7 +91,7 @@ public class TestGetFilteredItemInStores {
 
     @Test
     public void testNotUniqueSortParameters() {
-        Assertions.assertThrows(UCheckException.class, () -> new SortRule(
+        assertThrows(UCheckException.class, () -> new SortRule(
                 List.of(SortParameter.RATING, SortParameter.RATING)));
     }
 
@@ -106,8 +106,8 @@ public class TestGetFilteredItemInStores {
         Predicate<Coordinates> coordinatesPredicate = coordinates
                 -> Objects.equals(coordinates, perekrestok.getCoordinates());
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
+        assertIterableEquals(List.of(cocaColaInPerekrestok),
+                assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
                         new Filter(pricePredicate, ratingPredicate, storeLabelPredicate, coordinatesPredicate),
                         new SortRule())));
@@ -120,8 +120,8 @@ public class TestGetFilteredItemInStores {
 
         Coordinates customerCoordinates = perekrestok.getCoordinates();
 
-        Assertions.assertIterableEquals(List.of(cocaColaInPerekrestok, cocaColaInKarusel),
-                Assertions.assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
+        assertIterableEquals(List.of(cocaColaInPerekrestok, cocaColaInKarusel),
+                assertDoesNotThrow(() -> uCheck.getFilteredItemInStores(
                         cocaCola.getCode(),
                         new Filter(),
                         new SortRule(List.of(SortParameter.DISTANCE)),
