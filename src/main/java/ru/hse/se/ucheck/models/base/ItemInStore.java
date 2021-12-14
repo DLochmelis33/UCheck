@@ -1,8 +1,10 @@
-package ru.hse.se.ucheck.models;
+package ru.hse.se.ucheck.models.base;
+
+import ru.hse.se.ucheck.models.sort.Sortable;
 
 import java.util.Objects;
 
-public class ItemInStore {
+public class ItemInStore implements Sortable {
 
     private double price;
     private Store store;
@@ -14,6 +16,7 @@ public class ItemInStore {
         this.averageStoreRating = averageStoreRating;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }
@@ -22,6 +25,7 @@ public class ItemInStore {
         this.price = price;
     }
 
+    @Override
     public Store getStore() {
         return store;
     }
@@ -30,6 +34,7 @@ public class ItemInStore {
         this.store = store;
     }
 
+    @Override
     public double getAverageStoreRating() {
         return averageStoreRating;
     }
@@ -54,7 +59,7 @@ public class ItemInStore {
 
     @Override
     public int hashCode() {
-        return Objects.hash(price, store, averageStoreRating);
+        return Objects.hash(price, averageStoreRating, store);
     }
 
     @Override

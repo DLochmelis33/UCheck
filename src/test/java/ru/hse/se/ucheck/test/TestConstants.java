@@ -1,13 +1,18 @@
 package ru.hse.se.ucheck.test;
 
-import ru.hse.se.ucheck.models.*;
+import ru.hse.se.ucheck.models.base.Check;
+import ru.hse.se.ucheck.models.base.Coordinates;
+import ru.hse.se.ucheck.models.base.ItemInStore;
+import ru.hse.se.ucheck.models.base.Store;
+import ru.hse.se.ucheck.models.base.item.Item;
+import ru.hse.se.ucheck.models.base.item.Measure;
+import ru.hse.se.ucheck.models.base.item.Tag;
+import ru.hse.se.ucheck.models.cart.CartInStore;
+import ru.hse.se.ucheck.models.cart.ItemInCart;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.DoublePredicate;
-import java.util.function.Predicate;
+import java.util.Map;
 
 public class TestConstants {
 
@@ -15,6 +20,7 @@ public class TestConstants {
     public static final Item cocaColaExpensive = new Item(1, "Coca-Cola 0.5L", 150.0, Measure.PIECE);
     public static final Item fanta = new Item(2, "Fanta 1L", 90.0, Measure.PIECE);
     public static final Item meat = new Item(3, "Porkchop", 359.9, Measure.KILOGRAM);
+    public static final Item coneForest = new Item(4, "Cone Forest Water 1L", 60.0, Measure.PIECE);
 
     public static final Store karusel = new Store("St.Petersburg, Hermitage", "Karusel'",
             new Coordinates(59.9397392, 30.3140793));
@@ -40,4 +46,34 @@ public class TestConstants {
     public static final ItemInStore cocaColaInKarusel = new ItemInStore(cocaCola.getPrice(), karusel, 0.0);
     public static final ItemInStore cocaColaInPremiumPerekrestok = new ItemInStore(
             cocaColaExpensive.getPrice(), premiumPerekrestok, 0.0);
+
+    public static final ItemInCart oneCocaCola = new ItemInCart(cocaCola.getCode(), 1);
+    public static final ItemInCart twoCocaColas = new ItemInCart(cocaCola.getCode(), 2);
+    public static final ItemInCart fiveCocaColas = new ItemInCart(cocaCola.getCode(), 5);
+
+    public static final ItemInCart oneFanta = new ItemInCart(fanta.getCode(), 1);
+    public static final ItemInCart oneMeat = new ItemInCart(meat.getCode(), 1);
+
+    public static final CartInStore singleItemCart = new CartInStore(
+            Map.of(oneCocaCola, cocaCola.getPrice()), perekrestok, 0.0);
+    public static final CartInStore multiItemCart = new CartInStore(
+            Map.of(
+                    twoCocaColas, cocaCola.getPrice(),
+                    oneFanta, fanta.getPrice(),
+                    oneMeat, meat.getPrice()
+            ), karusel, 0.0);
+
+    public static final CartInStore perekrestokCart = new CartInStore(
+            Map.of(fiveCocaColas, cocaColaInPerekrestok.getPrice()),
+            perekrestok, 0.0);
+    public static final CartInStore karuselCart = new CartInStore(
+            Map.of(fiveCocaColas, cocaColaInKarusel.getPrice()),
+            karusel, 0.0);
+    public static final CartInStore premiumPerekrestokCart = new CartInStore(
+            Map.of(fiveCocaColas, cocaColaInPremiumPerekrestok.getPrice()),
+            karusel, 0.0);
+
+    public static final List<Tag> cocaColaDefaultTags = List.of(Tag.CARBONATED_DRINK, Tag.DRINK);
+    public static final List<Tag> cocaColaUpdatedTags = List.of(Tag.CARBONATED_DRINK, Tag.DRINK, Tag.PARTY);
+
 }

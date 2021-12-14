@@ -2,9 +2,9 @@ package ru.hse.se.ucheck.test;
 
 import ru.hse.se.ucheck.UCheckException;
 import ru.hse.se.ucheck.UCheckRamImpl;
-import ru.hse.se.ucheck.models.Rating;
-import ru.hse.se.ucheck.models.Review;
-import ru.hse.se.ucheck.models.Store;
+import ru.hse.se.ucheck.models.base.Store;
+import ru.hse.se.ucheck.models.rating.Rating;
+import ru.hse.se.ucheck.models.rating.Review;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
