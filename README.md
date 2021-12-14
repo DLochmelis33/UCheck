@@ -22,9 +22,13 @@ For more information visit our [project wiki](https://github.com/DLochmelis33/UC
 1. Clone the repo: 
 ```bash
 git clone git@github.com:DLochmelis33/UCheck.git
+cd UCheck
 ```
 
 2. Execute Gradle
+```bash
+./gradlew build
+```
 
 ## Authors
 - Gleb Solovev ([@GlebSolovev](https://github.com/GlebSolovev))
