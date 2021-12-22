@@ -30,14 +30,17 @@ git clone git@github.com:DLochmelis33/UCheck.git
 
 1. Clone the repo (just like normal installation)
 
-2. Build an image from `dockerfiles/download.Dockerfile`
-
-3. Build a second image using the following command:
+1. To assemble project into JAR, build an image using `assemble.Dockerfile`:
 ```bash
-docker build --rm -f "dockerfiles\build.Dockerfile" -t ucheck_built:latest "dockerfiles"
+ docker build -t ucheck:assemble . -f dockerfiles/assemble.Dockerfile
 ```
-Now the `ucheck_built:latest` contains the built project. 
-The TAR and ZIP archives containing an executable JAR are located in `build/distributions` folder in the image.
+The TAR and ZIP archives containing an executable JAR are located in the `build/distributions` folder in the `ucheck:build-and-test` image.
+
+1. To run tests, build an image using `build-and-test.Dockerfile`:
+```bash
+ docker build -t ucheck:test . -f dockerfiles/build-and-test.Dockerfile
+```
+This command generates TAR and ZIP archives as well.
 
 ## Authors
 - Gleb Solovev ([@GlebSolovev](https://github.com/GlebSolovev))
