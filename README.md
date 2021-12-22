@@ -30,6 +30,22 @@ cd UCheck
 ./gradlew build
 ```
 
+### Installing with Docker
+
+1. Clone the repo (just like normal installation)
+
+1. To assemble project into JAR, build an image using `assemble.Dockerfile`:
+```bash
+ docker build -t ucheck:assemble . -f dockerfiles/assemble.Dockerfile
+```
+The TAR and ZIP archives containing an executable JAR are located in the `build/distributions` folder in the `ucheck:build-and-test` image.
+
+1. To run tests, build an image using `build-and-test.Dockerfile`:
+```bash
+ docker build -t ucheck:test . -f dockerfiles/build-and-test.Dockerfile
+```
+This command generates TAR and ZIP archives as well.
+
 ## Authors
 - Gleb Solovev ([@GlebSolovev](https://github.com/GlebSolovev))
 - Denis Lochmelis ([@DLochmelis33](https://github.com/DLochmelis33))

@@ -3,10 +3,11 @@ plugins {
     id("net.ltgt.errorprone") version "2.0.2"
     checkstyle
     jacoco
+    application
 }
 
 group = "org.example"
-version = "1.0-SNAPSHOT"
+version = "0.5.0"
 
 repositories {
     mavenCentral()
@@ -14,6 +15,8 @@ repositories {
 
 dependencies {
     implementation("org.mockito:mockito-core:4.0.0")
+    implementation("info.picocli", "picocli", "4.6.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
 
     errorprone("com.google.errorprone:error_prone_core:2.9.0")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
@@ -24,6 +27,10 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("ru.hse.se.ucheck.cli.App")
 }
 
 checkstyle {

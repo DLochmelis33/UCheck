@@ -2,11 +2,17 @@ package ru.hse.se.ucheck.models.base;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonAutoDetect
 public class Coordinates {
     private double latitude; // in degrees
     private double longitude; // in degrees
 
-    public Coordinates(double latitude, double longitude) {
+    public Coordinates(
+            @JsonProperty("latitude") double latitude,
+            @JsonProperty("longitude") double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

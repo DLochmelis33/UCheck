@@ -2,13 +2,23 @@ package ru.hse.se.ucheck.models.base;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonAutoDetect
 public class Store {
 
     private String address;
     private String outlet;
     private Coordinates coordinates;
 
-    public Store(String address, String outlet, Coordinates coordinates) {
+    @JsonCreator
+    public Store(
+            @JsonProperty("address") String address,
+            @JsonProperty("outlet") String outlet,
+            @JsonProperty("coordinates") Coordinates coordinates
+    ) {
         this.address = address;
         this.outlet = outlet;
         this.coordinates = coordinates;

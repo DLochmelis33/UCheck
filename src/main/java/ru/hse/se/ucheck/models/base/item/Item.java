@@ -1,5 +1,10 @@
 package ru.hse.se.ucheck.models.base.item;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Item {
 
     private int code;
@@ -7,7 +12,13 @@ public class Item {
     private double price;
     private Measure measure;
 
-    public Item(int code, String label, double price, Measure measure) {
+    @JsonCreator
+    public Item(
+            @JsonProperty("code") int code,
+            @JsonProperty("label") String label,
+            @JsonProperty("price") double price,
+            @JsonProperty("measure") Measure measure
+    ) {
         this.code = code;
         this.label = label;
         this.price = price;
